@@ -8,8 +8,8 @@ output:
     lib_dir: libs
     nature:
       highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
+      highlightLines: true
+      countIncrementalSlides: false
 ---
 ## 本节课知识点
 
