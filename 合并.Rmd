@@ -1,0 +1,848 @@
+---
+title: "数据类型与数据结构"
+author: "PsychoR"
+date: "2018/5/10"
+output:
+  xaringan::moon_reader:
+    css: zh-CN.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+## 本节课知识点
+
+- 数据类型
+  - 数值型
+  - 字符串型
+  - 布尔型
+- 基础数据结构
+  - 向量
+  - 矩阵
+  - 数组
+  - 数据框
+  - 列表
+  - 因子
+- Tidyverse
+- Jamovi
+  
+---
+class: inverse, middle, center
+
+# 数据类型
+### 声明数据的处理方式
+*tips: R是动态语言*
+
+---
+## 常见的数据类型
+- 数值型
+- 字符串型
+- 布尔型
+
+---
+## 数值型：表达数字
+**格式：直接输入**
+```{r}
+1
+```
+
+--
+**特点：可以进行数学运算**
+```{r}
+1 + 1
+1 * 2
+sqrt(4)
+```
+
+---
+## 字符串型：表达字符
+**格式：两侧加英文引号**
+```{r}
+"Good"
+```
+
+--
+**特点：原样输入，原样显示**
+```{r}
+paste("Good","afternoon!", sep = " ")
+```
+
+---
+## 布尔型：表达逻辑
+**格式：TRUE、FALSE 或 T、F（注意大写）**
+```{r}
+TRUE
+```
+
+--
+**特点：可以进行逻辑运算**
+```{r}
+TRUE & FALSE  # 与
+TRUE | FALSE  # 或
+!TRUE         # 非
+```
+
+---
+class: middle, center
+# 帮助系统（?）
+### 通过?+想查找的对象了解具体操作
+例如?sum
+
+---
+class: inverse, middle, center
+
+# 简单数据结构
+### 组织结构简单的数据，进行大多数运算
+
+---
+## 对于数据结构要掌握的知识点
+
+- 建立
+- 性质
+- 索引
+- 操作（增、删、改）
+
+---
+class: inverse, middle, center
+# 向量（Vector）
+### 一维数据组成的数组，向量中的数据称为元素（element）
+
+---
+## 建立向量
+```{r}
+data1 <- 1
+data1 #向量是R中的最小数据结构，R中不存在单独的数字
+
+data2 <- c(1,2,3,4,5,6,7,8,9,0) 
+#建立字符串的方法是在c函数中将各元素使用逗号分隔
+data2 #前方的方括号标明该行第一个数字在向量中的位置
+
+data3 <- c("你好") #字符串型数据需要加双引号
+data3 #输出的字符串也会用双引号包裹
+```
+
+---
+## 其他建立向量的函数
+```{r}
+data5 <- 1:10
+data5
+
+data6 <- rep(2,5)
+data6
+
+data7 <- seq(2,12,2)
+data7
+```
+
+---
+## 向量的性质1：循环补齐
+```{r}
+data5
+data5 + 1
+data5 + c(1,2)
+```
+
+---
+## 向量的性质2：向量化计算
+```{r}
+sqrt(data5)
+data5 * 3
+```
+
+---
+## 向量的性质3：元素的同质性
+```{r}
+data5
+length(data5)
+data5[11] <- "hello"
+data5
+```
+
+---
+## class,is.numeric/as.numeric
+```{r}
+class(data5) #查看类别
+```
+
+--
+```{r}
+data5 <- as.numeric(data5[-11]) #将字符串型转换为数值型
+is.numeric(data5) #验证是否为数值型
+```
+
+--
+```{r}
+class(data5)
+```
+类似的函数还有is/as.character,is/as.factor
+
+---
+## 向量的索引
+```{r}
+data2[3] #方括号是基本的索引方式，方括号内是元素的位置
+```
+
+--
+```{r}
+which(data2 < 5) #which()函数可以返回符合特定条件的元素的位置
+```
+
+--
+```{r}
+data2[which(data2 < 5)]
+data2[data2 < 5]
+```
+
+---
+## 向量的修改
+```{r}
+data2
+data2[11] <- 30 #增
+data2
+data2 <- data2[-11] #删
+data2
+data2[10] <- "hello" #改
+data2
+```
+
+---
+```{r}
+data6 <- 1:5
+mean(data6)
+```
+--
+```{r}
+data6[4] <- NA 
+mean(data6)
+```
+NA为缺失值(not available),数据中出现NA就无法对其进行操作
+--
+```{r}
+mean(data6, na.rm = TRUE) #将数据中的NA除去
+```
+
+---
+## 向量的操作
+### 对两个向量进行独立样本T检验
+####建立t1,t2
+
+--
+```{r}
+t1 <- 1:5
+t2 <- 4:8
+t.test(t1, t2)
+```
+
+---
+## 向量的练习
+
+
+练习1：使用3种方法建立一个 2,4,6,8,10 的向量
+--
+
+```{r}
+c(2,4,6,8,10)
+1:5 * 2
+seq(2,10,2)
+```
+
+---
+## 向量的练习
+
+练习2：将刚才的向量赋值给a，并使其中的每一个元素增加2，并将结果赋值给b
+
+--
+```{r}
+a <- 1:5 * 2
+b <- a + 2
+b
+```
+
+---
+## 向量的练习
+
+练习3：将向量b中的第四个元素改成你自己的名字
+
+--
+```{r}
+b[4] <- "PsychoR"
+b
+```
+
+---
+## 向量的练习
+
+练习4：在向量a中索引出,对应向量b中小于8的元素位置,的元素
+
+要求：使用嵌套，一行代码实现
+--
+```{r}
+a[which(as.numeric(b[-4]) < 8)]
+```
+
+---
+class: inverse, middle, center
+# 矩阵（Matrix）
+### 二维数据组成的数组
+
+---
+## 矩阵的建立
+```{r}
+matrix(1:56, nrow = 7)
+matrix(1:56, nrow = 7, byrow = TRUE)
+```
+
+---
+## 矩阵的性质：元素的同质性
+```{r}
+a <- matrix(1:42, nrow = 7)
+a[2,3] <- "hello"
+a
+```
+
+---
+## 矩阵的索引
+```{r}
+a[3, 5] #逗号前是行，后是列
+a[2:4 , 2:5]
+a[3,]   #逗号前、后空缺，可以索引整行、整列
+a[,5]
+```
+
+---
+## 矩阵的操作：删除
+```{r}
+a <- a[-3,-5] ; a
+```
+--
+```{r}
+a <- matrix(1:42, nrow = 7)
+a[3,5] <- NA ; a
+```
+
+---
+## 矩阵的其他操作：转置
+```{r}
+a
+t(a)
+```
+
+---
+## 矩阵的其他操作：合并
+```{r}
+b <- matrix(1:6,3)
+cbind(b,b)
+rbind(b,b)
+```
+
+---
+class: inverse, middle, center
+
+# 数组 (array)
+### 真实世界当中的数据表达模式
+
+---
+## 真实世界当中的数据表达模式
+
+Example 1：认知神经研究中仪器的收集信号
+
+  - fMRI(Voxel.X × Voxel.Y × BOLD)
+  - EEGLab(Sampling Point × trails × Channals)
+
+Example 2：图片信息的处理
+
+  - Picture(Cor.X × Cor.Y × RGB)
+    
+---
+## 数组的概念
+
+三维数据结构，是向量和矩阵的直接推广
+
+---
+## 数组的建立
+```{r}
+my_array <- array(1:24, c(3, 4, 2))
+# 第一个参数是填充数据，第二个参数是数组维度
+my_array # 观察一下数据的填充模式
+```
+
+---
+## 数组的索引
+```{r}
+dim(my_array) # 查看数组的维度
+my_array[1,,]
+my_array[2,3,] # 注意索引结果是单维度时输出向量
+```
+
+---
+## 数组的操作
+增、删、改与矩阵相同
+
+---
+class: inverse, middle, center
+
+# 数据框 (data frame)
+### 符合直觉的数据表达模式
+
+---
+## 数据框的优势
+- 以 attribution 的概念描述更多维度数据
+  - 只需满足每个 attribution 下的数据是同质的
+  - attribution 可以指定名称
+  - 每个 attribution 中的内容可以使用字符串描述
+- 每行对应一个 observation 使得数据的对应关系变得清晰
+
+---
+## 数据框的建立1：手动输入
+```{r}
+num <- 1:5
+char <- letters[1:5] #letters是R中内建的向量，内容为小写字母
+my_dataframe <- data.frame(number = num, letter = char) #建立数据框，参数中等号前为列名，等号后为索引的向量
+my_dataframe
+```
+
+---
+## 数据框的建立2：读取现成表格
+```{r}
+hflights_table <- read.csv("hflights.csv")
+head(hflights_table)
+```
+
+---
+## 数据框的属性
+```{r}
+nrow(hflights_table) # 查看行数
+ncol(hflights_table) # 查看列数
+names(hflights_table) # 查看列名
+```
+
+---
+##长型数据和宽型数据
+宽型数据是指数据集对所有的变量进行了明确的细分，各变量的值不存在重复循环的情况也无法归类。数据总体的表现为变量多而观察值少。 
+```{r echo=FALSE, comment='', eval=TRUE}
+fake_data <- data.frame(id = 1:5, "2001" = runif(5, 4, 6), "2002" = rnorm(5, mean = 6, sd = 1), "2003" = rnorm(5, mean = 3.7, sd = 0.8), "2004" = rnorm(5, mean = 5, sd = 0.5))
+head(fake_data)
+```
+
+--
+长型数据一般是指数据集中的变量没有做明确的细分，即变量中至少有一个变量中的元素存在值严重重复循环的情况（可以归为几类），表格整体的形状为长方形，即变量少而观察值多。
+```{r echo=FALSE, comment = '', eval = TRUE}
+library(tidyr)
+fake_data <- data.frame(id = 1:5, "2001" = runif(5, 4, 6), "2002" = rnorm(5, mean = 6, sd = 1), "2003" = rnorm(5, mean = 3.7, sd = 0.8), "2004" = rnorm(5, mean = 5, sd = 0.5))
+gathered <- gather(fake_data, year, score, X2001 : X2004)
+head(gathered)
+```
+
+---
+## 数据框的索引1
+```{r}
+hflights_table[,9][1:30]
+hflights_table$TailNum[1:30] # 使用 $ 符号可以便捷地读取数据
+```
+
+---
+## 数据框的索引2
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+attach(hflights_table)
+```
+```{r}
+TailNum[1:30]
+DepDelay[1:30]
+```
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+detach(hflights_table)
+```
+
+---
+## 数据框的操作：增加一列
+```{r}
+added_my_dataframe <- cbind(my_dataframe, LETTERS[1:5])
+added_my_dataframe
+data.frame(my_dataframe, cap_letters = LETTERS[1:5])
+```
+
+---
+## 数据框的操作：修改列名
+```{r}
+names(added_my_dataframe)[3] <- "cap_letters"
+added_my_dataframe
+```
+
+---
+## 数据框的操作：取子集
+```{r}
+subset_dataframe <- subset(added_my_dataframe, select = c(2,3)) 
+# 将原数据框中的第2,3行取子集
+subset_dataframe
+```
+
+---
+## 数据框的操作：方差分析
+###对变量A的三个水平进行单因素方差分析
+
+--
+```{r}
+A <- data.frame(x = rep(c(1, 2, 3), 3), y = rnorm(9 ,mean = 5, sd = 3)) 
+# 创建一个有三个水平的数据框，x是水平,y是结果
+fit <- aov(y ~ x, data = A) # 利用aov函数进行单因素方差分析
+summary(fit) # 查看结果
+```
+
+
+---
+class: inverse, middle, center
+
+# 列表 (list)
+### 列表是个筐，一切往里装
+
+---
+## 列表的建立
+```{r}
+my_list <- list(number = 1:30, letters = letters, 
+               hflights = hflights_table) # 列表的建立
+head(my_list)
+```
+
+---
+## 列表的概览
+```{r}
+str(my_list)
+```
+
+---
+## 列表的索引
+```{r}
+my_list$hflights$DayofMonth[1:30]
+my_list[[2]]
+```
+---
+class: inverse, middle, center
+# Apply family
+### (apply, sapply, lapply...)
+
+---
+apply族函数是以向量化为原理的函数族，向量化会使得计算和运行更快,主要的函数有apply,sapply,lapply等
+
+apply函数是apply族函数中最常用到的。它适用于数组和矩阵，输出形式为向量，语法如下：
+
+apply(x, margin, function, ….)
+
+--
+```{r warning=FALSE}
+a
+apply(a, 2, sum, na.rm = T) # 对每列进行求和，同时除去缺失值
+```
+
+---
+sapply函数适用于列表和数据框，输出形式为向量
+```{r}
+ sapplyFun <-  data.frame(a = 1:5, b = 11:15, c = 21:25)
+ sapply(sapplyFun, mean)
+```
+
+--
+lapply函数适用于列表和数据框，输出形式为列表
+```{r}
+lapplyFun <-  list(a = 1:5, b = 11:15, c = 21:25)
+lapply(lapplyFun, mean)
+```
+更多内容请查询?apply
+
+---
+class: inverse, middle, center
+
+# 因子 (factor)
+### 离散型（分类、定序）数据的表达
+
+---
+
+```{r}
+hflights <- readr::read_csv("hflights.csv")
+hflights$UniqueCarrier[1:10]
+```
+
+--
+```{r}
+hflights_UC_ordered <- factor(hflights$UniqueCarrier,
+                              ordered = TRUE)
+hflights_UC_ordered[1:10]
+```
+
+---
+## 因子的独特属性Levels
+我们能够发现数据中增加的属性：Levels，且在调用ordered参数为TRUE时，可以使得Leveles属性中加入小于号。
+
+Levels参数表达**不同分类**的含义，而加入小于号后，则增加了**顺序**的含义。
+
+因此我们使用因子表达分类变量和顺序变量。
+
+---
+## 因子的建立
+```{r}
+my_factor <- factor(letters)
+my_factor
+my_factor_num <- factor(10:1, ordered = TRUE)
+my_factor_num
+```
+
+--
+```{r}
+factor_in_datafram <- read.csv("hflights.csv", 
+                               stringsAsFactors = FALSE)
+factor_in_datafram$UniqueCarrier[1:10]
+```
+
+---
+## 因子的索引与操作
+大部分与向量相同
+
+---
+## 因子对于 Levels 的操作
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+levels(my_factor_num)
+levels(my_factor_num) <- as.character(10:1) # 对Levels直接赋值
+my_factor_num
+```
+
+---
+## 当因子遇到数据框——分组汇总
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+aggregate(hflights, by = list(hflights$UniqueCarrier), 
+          mean, na.rm = TRUE)[c(1, 6, 7)]
+```
+
+---
+class: inverse, middle, center
+
+# Tidyverse 语法
+### 改变 R 语言界的超级巨星
+
+---
+## dplyr 包
+
+- 基于MySQL的概念调用数据
+- 对数据框进行数据清理，拯救了数据科学家们 80% 的生命
+- 掌握知识点
+    - Pipeline 写法
+    - 五大基本函数
+        - select()
+        - filter()
+        - mutate()
+        - group_by()
+        - summarise()
+
+---
+## Pipeline
+
+数据犹如管道中流动的水流，在不同的管道中流动
+
+Example:
+```{r}
+head(iris)
+iris_sub <- subset(iris, Sepal.Length > mean(Sepal.Length))
+cor(iris_sub$Sepal.Length, iris_sub$Sepal.Width)
+```
+---
+如果使用嵌套的方式去写
+```{r}
+cor(subset(iris, Sepal.Length > mean(Sepal.Length))$Sepal.Length,
+    subset(iris, Sepal.Length > mean(Sepal.Length))$Sepal.Width)
+```
+--
+**可读性很差！**
+
+---
+#### 如果我们使用 Pipeline
+```{r}
+library(magrittr)
+iris %>%
+  subset(Sepal.Length > mean(Sepal.Length)) %$%
+  cor(Sepal.Length, Sepal.Width)
+```
+
+---
+## 再举一个例子
+```{r}
+a <- 1:5 * 2
+b <- a + 2
+a[which(as.numeric(b[-4]) < 8)]
+```
+--
+```{r}
+b[-4] %>% 
+  as.numeric() %>%
+  '<'(8) %>% 
+  which() %>% 
+  a[.]
+```
+
+---
+## dplyr 五大基本函数
+
+- 列筛选 select()
+- 行筛选 filter()
+- 添加列 mutate()
+- 分组   group_by()
+- 汇总   summarise()
+
+```{r}
+{{library(dplyr)}}
+```
+
+---
+## 列筛选 select()
+
+- 可以根据列名直接选择相应的列
+- 可以对列名使用类似向量的操作
+- 可以对列名使用匹配操作
+
+---
+### Ex 2.1
+选出 AirTime, ArrDelay 以及 DepDelay 这几列
+--
+```{r}
+select(hflights, AirTime, ArrDelay , DepDelay)
+```
+
+---
+### Ex 2.2
+选出Origin 到 Cancelled 这几列
+--
+```{r}
+select(hflights, Origin : Cancelled)
+```
+
+---
+### Ex 2.3
+熟悉几个匹配函数：starts_with("X")，ends_with("X")，contains("X")
+
+---
+#### Ex 2.3.1
+选出记录所有起飞延迟与到达延迟的飞机的列
+--
+```{r}
+select(hflights, ends_with("Delay"))
+```
+
+---
+#### Ex 2.3.2
+选出所有所有记录起飞延迟与到达延迟，以及记录航班与时间相关信息的列
+--
+```{r}
+select(hflights, contains("Time"),contains("Delay"))
+```
+
+---
+## 行筛选 filter() 
+依据布尔运算保留符合条件的行
+
+- 逻辑判断符：<, <=, ==, !=, %in%
+- 逻辑运算符：& (与), | (或), and ! (非)
+
+---
+### Ex 3.1
+筛选出飞行距离超过3000的航班
+--
+```{r}
+filter(hflights, Distance >= 3000)
+```
+
+---
+### Ex 3.2
+筛选出航空公司为 JetBlue, Southwest, Delta 的航班
+--
+```{r}
+filter(hflights, 
+       UniqueCarrier %in% c("JetBlue", "Southwest", "Delta"))
+```
+
+---
+### Ex 3.3
+筛选出滑行时间长于起飞时间的航班
+--
+```{r}
+filter(hflights, (TaxiOut + TaxiIn) > AirTime)
+```
+
+---
+### Ex 3.4
+筛选出早晨5点前起飞，或半夜10点才降落的航班
+--
+```{r}
+filter(hflights, DepTime < 500 | ArrTime > 2200)
+```
+
+---
+### Ex 3.5
+筛选出双休日被取消的航班
+--
+```{r}
+filter(hflights, 
+       Cancelled != 0 & DayOfWeek %in% c(6,7))
+```
+
+---
+### Ex 3.6
+筛选出航班推迟随后取消的航班
+--
+```{r}
+filter(hflights, Cancelled != 0 & DepDelay >0)
+```
+
+---
+## 生成新的列 Mutate()
+计算滑行时间，新建一列称为TotalTaxi
+--
+```{r}
+mutate(hflights, TotalTaxi = TaxiIn + TaxiOut)
+```
+
+---
+## 练习
+提示一个之前的题目：如果我们想看一下滑行时间长于起飞时间的航班中，滑行时间超过1个小时，且起飞时间早于8点的航班有哪些？
+原来的方法可以怎么做？
+```{r}
+f1 <- filter(hflights, (TaxiIn + TaxiOut) > AirTime)
+f2 <- mutate(f1, TotalTaxi = TaxiIn + TaxiOut)
+f3 <- filter(f2, TotalTaxi > 60)
+f4 <- filter(f3, DepTime < 800)
+f4
+```
+
+---
+如果使用管道操作符
+```{r}
+hflights %>% 
+  filter((TaxiIn + TaxiOut) > AirTime) %>% 
+  mutate(TotalTaxi = TaxiIn + TaxiOut) %>% 
+  filter(TotalTaxi > 60) %>% 
+  filter(DepTime < 800)
+```
+
+---
+## 使用管道操作将分组和汇总连起来
+计算一下各个航空公司的平均航班取消率
+--
+```{r}
+hflights %>%
+   group_by(UniqueCarrier) %>%
+   summarise(p_cancel = mean(Cancelled == 1) * 100)
+```
+
+---
+### Ex 5.1
+计算一下各个航空公司的平均航班延误时间
+--
+```{r}
+hflights %>%
+   group_by(UniqueCarrier) %>%
+   summarise(avg_delay = mean(ArrDelay, na.rm = TRUE))
+```
+
+---
+class: inverse, middle, center
+#重头戏
+###听完上述介绍，是不是觉得r语言特别难?
+##别怕！
+###下面介绍一款极为容易操作上手的软件，jamovi
